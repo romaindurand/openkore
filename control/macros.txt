@@ -1,0 +1,285 @@
+macro start {
+  do ai auto
+  do move 147 112
+  pause 5
+  do move 100 22
+  do talk 0
+  do talk resp 2
+  do talk resp 0
+  do talk 0
+  do eq 2
+  do eq 3
+  do eq 4
+  do eq 5
+  do eq 6
+  do eq 7
+  do talk 0
+  do move 107 107
+  do talk 1
+  do talk resp 0
+  do talk 0
+  do talk 0
+  do talk resp 1
+  do talk 0
+  do talk 1
+  do talk resp 4
+  do talk 2
+  do talk 3
+  do talk 0
+  #warp to outside
+  do ai manual
+  pause 5
+  do talk 0
+  do ai auto
+  call findPoring
+  call useButterflyWing
+  do talk 0
+  do ai manual
+  do move 107 35
+  do ai auto
+  do talk 1
+  do talk resp 2
+  do talk 3
+  do talk resp 2
+  do talk 4
+  do talk resp 2
+  do talk 6
+  do talk resp 2
+
+  #start quests
+  call huntMonsters
+  call getTwoEmptyBottle
+  call useButterflyWing
+  do move 107 35
+
+  do talknpc 97 41
+  do talk resp 2
+
+  do talknpc 105 41
+  do talk resp 2
+
+  do talknpc 117 41
+  do talk resp 2
+
+  do move 107 45
+  do talknpc 100 50
+  do sell
+  $id = @inventory(Empty Bottle)
+  do sell $id
+  do sell done
+
+  do talknpc 109 41
+  do talk resp 2
+
+  #exit training ground
+  do move 103 32
+  do talknpc 96 30
+  do talk resp 1
+}
+
+macro suite {
+  log You can now login to chose your job
+  do quit
+}
+
+macro getTwoEmptyBottle {
+  while (@invamount(Empty Bottle) < 2) as emptyBottleLoop
+    if (@monster(Roda Frog) != -1 || @monster(Drops) != -1 || @monster(Poring) != -1) {
+      if (@monster(Poring) != -1) {
+        do a @monster(Poring)
+      }
+      if (@monster(Drops) != -1) {
+        do a @monster(Drops)
+      }
+      if (@monster(Roda Frog) != -1) {
+        do a @monster(Roda Frog)
+      }
+      log Empty Bottle : @invamount(Empty Bottle)
+    } else {
+      call randomMove
+    }
+  end emptyBottleLoop
+  log You got two Empty Bottle
+}
+
+macro useButterflyWing {
+  $id = @inventory(Novice Butterfly Wing)
+  $id2 = @inventory(Butterfly Wing)
+  if ($id != -1) {
+    do is $id
+  } elsif ($id2 != -1) {
+    do is $id2
+  }
+  pause 2
+}
+
+macro huntMonsters {
+  $picky = 4
+  $lunatic = 7
+  $willow = 7
+  while ($picky > 0 || $willow > 0 || $lunatic > 0) as killMonstersLoop
+
+    log Quest | Picky $picky | Lunatic $lunatic | Willow $willow
+    if (@monster(Willow) != -1 && $willow > 0) {
+      do a @monster(Willow)
+      $willow--
+    }
+    if (@monster(Lunatic) != -1 && $lunatic > 0) {
+      do a @monster(Lunatic)
+      $lunatic--
+    }
+    if (@monster(Picky) != -1 && $picky > 0) {
+      do a @monster(Picky)
+      $picky--
+    }
+
+    call findMonsters
+
+  end killMonstersLoop
+
+  log All monsters killed !
+}
+
+macro findMonsters {
+  $shouldTpPicky = 0
+  $shouldTpLunatic = 0
+  $shouldTpWillow = 0
+
+  log Looking for targets in sight ...
+
+
+  if (@monster(Picky) == -1) {
+    $shouldTpPicky = 1
+  }
+  if (@monster(Lunatic) == -1) {
+    $shouldTpLunatic = 1
+  }
+  if (@monster(Willow) == -1) {
+    $shouldTpWillow = 1
+  }
+
+
+
+  if ($picky == 0) {
+    $shouldTpPicky = 0
+  }
+  if ($lunatic == 0) {
+    $shouldTpLunatic = 0
+  }
+  if ($willow == 0) {
+    $shouldTpWillow = 0
+  }
+
+  
+
+  if ($shouldTpPicky == 1 || $shouldTpLunatic == 1 || $shouldTpWillow == 1) {
+    log No monster to kill in sight, moving to another location
+    call randomMove
+  }
+}
+
+macro findPoring {
+  $isPoring = @monster(Poring)
+  if ($isPoring == -1) {
+    log No Poring in sight, moving to another location
+    call randomMove
+    call findPoring
+  } else {
+    do ai auto
+    do a $isPoring
+  }
+}
+
+macro randomMove {
+  $id = @inventory(Novice Fly Wing)
+  if ($id == -1) {
+    $num = @rand(1, 4)
+    do north if ($num == 1)
+    do south if ($num == 2)
+    do east  if ($num == 3)
+    do west  if ($num == 4)
+  } else {
+    do is $id
+    pause 2
+  }
+}
+
+#disabled (98% instead of 48%)
+automacro dealAuto {
+   weight > 98%
+   call {
+      $player = @player ()
+      call useButterflyWing
+      do move geffen 167 37
+      pause 3
+      do deal "$player"
+      pause 3
+      do deal add 4
+      do deal add 5
+      do deal add 6
+      do deal add 7
+      do deal add 8
+      do deal add 9
+      do deal add 10
+      do deal add 11
+      do deal add 12 <---last item
+      do deal add 13 <---this is empty
+      do deal 
+      pause 3
+      do deal "$player"
+      pause 3
+      do deal add 14
+      do deal add 15
+      do deal add 16
+      do deal add 17
+      do deal add 18
+      do deal add 19
+      do deal add 20
+      do deal add 21
+      do deal add 22
+      do deal add 23
+      do deal
+      pause 3
+      relog 2
+  }
+}
+
+macro save {
+  do ai manual
+  do stand
+  if ($.map != geffen) {
+    call useButterflyWing
+  }
+  do move $saveMap $kafraCoords
+  do talknpc $kafraCoords
+  do talk resp 0
+  do conf saveMap geffen
+  do conf sellAuto 1
+  do conf sellAuto_npc $sellNpc
+  do conf storageAuto 1
+  do conf storageAuto_npc $saveMap $kafraCoords
+  do ai on
+}
+
+macro saveGeffen {
+  $saveMap = geffen
+  $kafraCoords = 120 62
+  $sellNpc = geffen_in 74 144
+  call save
+}
+
+macro acolyte {
+  $job = acolyte
+  do conf statsAddAuto 1
+  do conf statsAddAuto_list 15 dex, 30 int, 20 dex, 50 int
+  call start
+  do talk 0
+}
+
+macro thief {
+  $job = thief
+  do conf statsAddAuto 1
+  do conf statsAddAuto_list 15 dex, 20 agi, 20 str, 30 dex, 50 agi, 30 str, 70 agi
+  call start
+  do talk 0
+}
