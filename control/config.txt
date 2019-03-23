@@ -244,8 +244,8 @@ sitAuto_look
 sitAuto_look_from_wall
 sitTensionRelax 0
 
-statsAddAuto 0
-statsAddAuto_list
+statsAddAuto 1
+statsAddAuto_list 15 dex
 statsAddAuto_dontUseBonus 0
 statsAdd_over_99 1
 

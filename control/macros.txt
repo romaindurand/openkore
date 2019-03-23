@@ -1,7 +1,7 @@
 macro start {
   do ai auto
   do move 147 112
-  pause 5
+  pause 3
   do move 100 22
   do talk 0
   do talk resp 2
@@ -29,11 +29,11 @@ macro start {
   #warp to outside
   do ai manual
   pause 5
-  do talk 0
+  do talknpc 96 30
   do ai auto
   call findPoring
   call useButterflyWing
-  do talk 0
+  do talknpc 96 30
   do ai manual
   do move 107 35
   do ai auto
@@ -75,6 +75,11 @@ macro start {
   do move 103 32
   do talknpc 96 30
   do talk resp 1
+
+  #job teleport
+  pause 2
+  do talk 0
+  do talk resp 0
 }
 
 macro suite {
@@ -247,13 +252,14 @@ automacro dealAuto {
 macro save {
   do ai manual
   do stand
-  if ($.map != geffen) {
+  if ($.map != $saveMap) {
     call useButterflyWing
   }
-  do move $saveMap $kafraCoords
+  do move $saveMap
+  do move $kafraCoords
   do talknpc $kafraCoords
   do talk resp 0
-  do conf saveMap geffen
+  do conf saveMap $saveMap
   do conf sellAuto 1
   do conf sellAuto_npc $sellNpc
   do conf storageAuto 1
@@ -268,18 +274,61 @@ macro saveGeffen {
   call save
 }
 
+macro saveIzlude {
+  $saveMap = izlude
+  $kafraCoords = 134 88
+  $sellNpc = izlude_in 115 61
+  call save
+}
+
+macro swordman {
+  do conf statsAddAuto_list 15 dex, 20 vit, 20 str, 30 agi, 30 dex, 50 agi
+  call start
+  do talk resp 0
+  
+  #swordman quest
+  pause 2
+  do talknpc 74 172
+  do talk resp 1
+  do talk resp 0
+
+  do conf skillsAddAuto_list SM_RECOVERY 10, SM_SWORD 10
+  $id = @inventory(Novice Falchion [3])
+  do eq $id
+  $id = @inventory(Novice Adventurer Suit [1])
+  do eq $id
+  do move izlude
+  call saveIzlude
+  do conf lockMap prt_fild08
+  do ai auto
+}
+
 macro acolyte {
-  $job = acolyte
-  do conf statsAddAuto 1
   do conf statsAddAuto_list 15 dex, 30 int, 20 dex, 50 int
   call start
-  do talk 0
+  do talk resp 1
 }
 
 macro thief {
-  $job = thief
-  do conf statsAddAuto 1
   do conf statsAddAuto_list 15 dex, 20 agi, 20 str, 30 dex, 50 agi, 30 str, 70 agi
   call start
-  do talk 0
+  do talk resp 2
+}
+
+macro merchant {
+  do conf statsAddAuto_list 15 dex, 20 agi, 20 str, 30 dex, 50 agi, 30 str, 70 agi
+  call start
+  do talk resp 3
+}
+
+macro archer {
+  do conf statsAddAuto_list 15 dex, 20 agi, 50 dex, 40 agi, 99 dex
+  call start
+  do talk resp 4
+}
+
+macro mage {
+  do conf statsAddAuto_list 15 dex, 50 int, 30 dex, 70 int, 50 dex, 99 int
+  call start
+  do talk resp 5
 }
