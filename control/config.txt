@@ -1,14 +1,18 @@
 # Please Read the Users Manual
 # The Manual is located at http://wiki.openkore.com/index.php?title=Manual
 
+useSelf_item Apple, Carrot, Red Herb, Novice Potion {
+	hp < 80%
+}
+
 ######## Login options and server-specific options ########
 
-master
-server
+master France - fRO
+server 0
 username
 password
 loginPinCode
-char
+char 0
 
 # Poseidon Settings (http://wiki.openkore.com/index.php/PoseidonServer)
 # They must be the same as Query Server config in Poseidon.txt
@@ -245,8 +249,8 @@ statsAddAuto_list
 statsAddAuto_dontUseBonus 0
 statsAdd_over_99 1
 
-skillsAddAuto 0
-skillsAddAuto_list
+skillsAddAuto 1
+skillsAddAuto_list NV_BASIC 9
 
 tankMode 0
 tankModeTarget
@@ -759,3 +763,4 @@ logToFile_Messages
 logToFile_Warnings
 history_max 50
 gameGuard 0
+macro_orphans terminate
