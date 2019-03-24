@@ -1,8 +1,12 @@
 # Please Read the Users Manual
 # The Manual is located at http://wiki.openkore.com/index.php?title=Manual
 
-useSelf_item Apple, Carrot, Red Herb, Novice Potion {
+useSelf_item Apple, Carrot, Red Herb, Potato, Honey, Yellow Herb, Banana, Novice Potion {
 	hp < 80%
+}
+
+useSelf_item Blue Herb, Honey, Strawberry {
+	sp < 80%
 }
 
 ######## Login options and server-specific options ########
@@ -234,7 +238,7 @@ buyerShopAuto_open 0
 buyerShop_random 0
 
 sitAuto_hp_lower 40
-sitAuto_hp_upper 100
+sitAuto_hp_upper 95
 sitAuto_sp_lower 0
 sitAuto_sp_upper 0
 sitAuto_follow 0
@@ -246,7 +250,7 @@ sitTensionRelax 0
 
 statsAddAuto 1
 statsAddAuto_list 15 dex
-statsAddAuto_dontUseBonus 0
+statsAddAuto_dontUseBonus 1
 statsAdd_over_99 1
 
 skillsAddAuto 1

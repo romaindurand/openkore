@@ -289,6 +289,14 @@ macro savePronteraWest {
   call save
 }
 
+macro saveAyothaya {
+  $saveMap = ayothaya
+  $kafraX = 212
+  $kafraY = 169
+  $sellNpc = ayothaya 203 178
+  call save
+}
+
 macro savePayon {
   $saveMap = payon
   $kafraX = 181
@@ -335,6 +343,12 @@ macro acolyte {
   do eq $id
   $id = @inventory(Novice Mace [3])
   do eq $id
+  do conf useSelf_skill_1 Heal
+  do conf useSelf_skill_1_lvl 10
+  do conf useSelf_skill_1_hp < 80%
+  do conf useSelf_skill_1_sp > 10%
+  do conf useSelf_skill_1_stopWhenHit 0
+
   do move prontera
   do move payon
   do macro savePayon
