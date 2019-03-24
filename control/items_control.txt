@@ -40,6 +40,7 @@
 # All items not mentioned in this file will be automatically stored in storage.
 all 0 1 0
 
+569 0 0 0 # Novice Potion
 
 ##### HEAL/SUPPORT ITEMS #####
 # Adjust these to your needs

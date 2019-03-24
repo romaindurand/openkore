@@ -77,14 +77,9 @@ macro start {
   do talk resp 1
 
   #job teleport
-  pause 2
+  pause 4
   do talk 0
   do talk resp 0
-}
-
-macro suite {
-  log You can now login to chose your job
-  do quit
 }
 
 macro getTwoEmptyBottle {
@@ -255,8 +250,11 @@ macro save {
   if ($.map != $saveMap) {
     call useButterflyWing
   }
+  $kafraCoords = $kafraX $kafraY
+  $kafraX2 = $kafraX
+  $kafraX2--
   do move $saveMap
-  do move $kafraCoords
+  do move $saveMap $kafraX2 $kafraY
   do talknpc $kafraCoords
   do talk resp 0
   do conf saveMap $saveMap
@@ -269,15 +267,33 @@ macro save {
 
 macro saveGeffen {
   $saveMap = geffen
-  $kafraCoords = 120 62
+  $kafraX = 120
+  $kafraY = 62
   $sellNpc = geffen_in 74 144
   call save
 }
 
 macro saveIzlude {
   $saveMap = izlude
-  $kafraCoords = 134 88
+  $kafraX = 134
+  $kafraY = 88
   $sellNpc = izlude_in 115 61
+  call save
+}
+
+macro savePronteraWest {
+  $saveMap = prt_fild05
+  $kafraX = 290
+  $kafraY = 224
+  $sellNpc = prt_fild05 290 221
+  call save
+}
+
+macro savePayon {
+  $saveMap = payon
+  $kafraX = 181
+  $kafraY = 104
+  $sellNpc = payon 159 96
   call save
 }
 
@@ -293,9 +309,9 @@ macro swordman {
   do talk resp 0
 
   do conf skillsAddAuto_list SM_RECOVERY 10, SM_SWORD 10
-  $id = @inventory(Novice Falchion [3])
-  do eq $id
   $id = @inventory(Novice Adventurer Suit [1])
+  do eq $id
+  $id = @inventory(Novice Falchion [3])
   do eq $id
   do move izlude
   call saveIzlude
@@ -304,9 +320,25 @@ macro swordman {
 }
 
 macro acolyte {
-  do conf statsAddAuto_list 15 dex, 30 int, 20 dex, 50 int
+  do conf statsAddAuto_list 20 dex, 30 int, 30 dex, 50 int
   call start
   do talk resp 1
+
+  #acolyte quest
+  pause 2
+  do move 184 37
+  do talknpc 184 41
+  do talk resp 0
+
+  do conf skillsAddAuto_list AL_RUWACH 1, AL_TELEPORT 1, AL_HEAL 10, AL_DP 5, AL_BLESSING 10, AL_INCAGI 10
+  $id = @inventory(Novice Adventurer Suit [1])
+  do eq $id
+  $id = @inventory(Novice Mace [3])
+  do eq $id
+  do move prontera
+  do move payon
+  do macro savePayon
+  do conf lockMap pay_fild08
 }
 
 macro thief {
