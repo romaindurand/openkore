@@ -359,7 +359,7 @@ macro acolyte {
 
   do move prontera
   do move payon
-  do macro savePayon
+  call savePayon
   do conf lockMap pay_fild08
 }
 
@@ -383,7 +383,7 @@ macro thief {
   do eq $id
 
   call useButterflyWing
-  do macro saveMorocc
+  call saveMorocc
   do conf lockMap moc_fild12
 }
 
