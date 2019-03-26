@@ -6,6 +6,7 @@ macro start {
   do talk 0
   do talk resp 2
   do talk resp 0
+  do move 107 107
   do talk 0
   do eq 2
   do eq 3
@@ -14,7 +15,6 @@ macro start {
   do eq 6
   do eq 7
   do talk 0
-  do move 107 107
   do talk 1
   do talk resp 0
   do talk 0
@@ -305,6 +305,14 @@ macro savePayon {
   call save
 }
 
+macro saveMorocc {
+  $saveMap = morocc
+  $kafraX = 156
+  $kafraY = 97
+  $sellNpc = morocc 145 103
+  call save
+}
+
 macro swordman {
   do conf statsAddAuto_list 15 dex, 20 vit, 20 str, 30 agi, 30 dex, 50 agi
   call start
@@ -359,6 +367,24 @@ macro thief {
   do conf statsAddAuto_list 15 dex, 20 agi, 20 str, 30 dex, 50 agi, 30 str, 70 agi
   call start
   do talk resp 2
+
+  #thief quest
+  pause 2
+  do talknpc 39 129
+  do talk resp 0
+  do talk resp 0
+  do talk resp 0
+  do talknpc 42 133
+
+  do conf skillsAddAuto_list TF_MISS 5, TF_DOUBLE 5, TF_MISS 10, TF_DOUBLE 10
+  $id = @inventory(Novice Adventurer Suit [1])
+  do eq $id
+  $id = @inventory(Novice Main Gauche [3])
+  do eq $id
+
+  call useButterflyWing
+  do macro saveMorocc
+  do conf lockMap moc_fild12
 }
 
 macro merchant {
