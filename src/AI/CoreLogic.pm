@@ -3001,7 +3001,7 @@ sub processAutoAttack {
 		if ($attackTarget) {
 			ai_setSuspend(0);
 			
-			AI::dequeue() while (AI::is(qw/move route mapRoute/) && AI::args()->{isRandomWalk});
+			# AI::dequeue() while (AI::is(qw/move route mapRoute/) && AI::args()->{isRandomWalk});
 			
 			$char->attack($attackTarget);
 		} else {

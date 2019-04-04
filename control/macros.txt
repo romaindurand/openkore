@@ -84,15 +84,12 @@ macro start {
 
 macro getTwoEmptyBottle {
   while (@invamount(Empty Bottle) < 2) as emptyBottleLoop
-    if (@monster(Roda Frog) != -1 || @monster(Drops) != -1 || @monster(Poring) != -1) {
+    if (@monster(Drops) != -1 || @monster(Poring) != -1) {
       if (@monster(Poring) != -1) {
         do a @monster(Poring)
       }
       if (@monster(Drops) != -1) {
         do a @monster(Drops)
-      }
-      if (@monster(Roda Frog) != -1) {
-        do a @monster(Roda Frog)
       }
       log Empty Bottle : @invamount(Empty Bottle)
     } else {
@@ -103,6 +100,7 @@ macro getTwoEmptyBottle {
 }
 
 macro useButterflyWing {
+  do stand
   $id = @inventory(Novice Butterfly Wing)
   $id2 = @inventory(Butterfly Wing)
   if ($id != -1) {
@@ -204,46 +202,6 @@ macro randomMove {
   }
 }
 
-#disabled (98% instead of 48%)
-automacro dealAuto {
-   weight > 98%
-   call {
-      $player = @player ()
-      call useButterflyWing
-      do move geffen 167 37
-      pause 3
-      do deal "$player"
-      pause 3
-      do deal add 4
-      do deal add 5
-      do deal add 6
-      do deal add 7
-      do deal add 8
-      do deal add 9
-      do deal add 10
-      do deal add 11
-      do deal add 12 <---last item
-      do deal add 13 <---this is empty
-      do deal 
-      pause 3
-      do deal "$player"
-      pause 3
-      do deal add 14
-      do deal add 15
-      do deal add 16
-      do deal add 17
-      do deal add 18
-      do deal add 19
-      do deal add 20
-      do deal add 21
-      do deal add 22
-      do deal add 23
-      do deal
-      pause 3
-      relog 2
-  }
-}
-
 macro save {
   do ai manual
   do stand
@@ -310,6 +268,14 @@ macro saveMorocc {
   $kafraX = 156
   $kafraY = 97
   $sellNpc = morocc 145 103
+  call save
+}
+
+macro saveAlberta {
+  $saveMap = alberta
+  $kafraX = 113
+  $kafraY = 60
+  $sellNpc = alberta_in 188 21
   call save
 }
 
@@ -397,10 +363,89 @@ macro archer {
   do conf statsAddAuto_list 15 dex, 20 agi, 50 dex, 40 agi, 99 dex
   call start
   do talk resp 4
+
+  #archer quest
+  pause 2
+  do talknpc 64 71
+  do talk resp 0
+
+  do conf skillsAddAuto_list AC_OWL 5, AC_VULTURE 10, AC_OWL 10
+  $id = @inventory(Novice Adventurer Suit [1])
+  do eq $id
+  $id = @inventory(Novice Composite Bow [3])
+  do eq $id
+  $id = @inventory(Arrow Quiver)
+  do is $id
+
+  do conf attackDistance 8
+  do conf attackDistanceAuto 1
+  do conf attackMaxDistance 8
+  do conf buyAuto_1 Arrow
+	do conf buyAuto_1_npc morocc 145 103
+	do conf buyAuto_1_distance 5
+	do conf buyAuto_1_minAmount 50
+	do conf buyAuto_1_maxAmount 500
+  do conf attackEquip_arrow Arrow
+
+  do move morocc
+  call saveMorocc
+  do conf lockMap moc_fild11
 }
 
 macro mage {
   do conf statsAddAuto_list 15 dex, 50 int, 30 dex, 70 int, 50 dex, 99 int
   call start
   do talk resp 5
+
+  #mage quest
+  pause 2
+  do talknpc 164 124
+  do talk resp 0
+  do talk resp 0
+
+  $id = @inventory(Novice Adventurer Suit [1])
+  do eq $id
+  $id = @inventory(Novice Rod [3])
+  do eq $id
+  do conf skillsAddAuto_list MG_FIREBOLT 4, MG_SRECOVERY 5, MG_COLDBOLT 5
+  do conf sitAuto_sp_lower 20
+  do conf sitAuto_sp_upper 95
+  do conf attackUseWeapon 0
+  do conf attackSkillSlot_1 Fire Bolt
+	do conf attackSkillSlot_1_stopWhenHit 1
+	do conf attackSkillSlot_1_lvl 4
+	do conf attackSkillSlot_1_dist 7..9
+	do conf attackSkillSlot_1_sp > 10%
+
+  call useButterflyWing
+  call saveGeffen
+  do conf lockMap gef_fild04
+}
+
+automacro dropAutoTrigger {
+  disabled 0
+  run-once 1
+  weight > 48%
+  call {
+    if (@config(dropAuto) != 1) {
+      log dropAuto is disabled
+      stop
+    }
+    call autoDrop
+    release dropAutoTrigger
+  }
+}
+
+macro autoDrop {
+  log Initiating autoDrop sequence ...
+  $index = @config(dropAutoIdStart)
+  $idStop = @config(dropAutoIdStop)
+  do ai manual
+  call useButterflyWing
+  do move @config(dropAutoLocation)
+  while ($index < $idStop) as autoDropLoop
+    do drop $index
+    $index++
+  end autoDropLoop
+  do ai auto
 }

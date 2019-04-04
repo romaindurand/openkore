@@ -26,8 +26,8 @@ poseidon_wait_reply 15
 # Activate AI after x seconds after the map's loaded
 ai 1
 
-ai_move_retry 0.1
-ai_move_giveup 1
+ai_move_retry 0.3
+ai_move_giveup 2
 
 # Send the attack packet every x seconds, if it hasn't been send already
 ai_attack 0.1
